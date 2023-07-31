@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace StrifeClient.StrifeInternal
 {
@@ -15,6 +16,7 @@ namespace StrifeClient.StrifeInternal
             Debug = 1,
             Error = 2,
             Warning = 3,
+            Fatal = 4
         }
         private static void LogToFile(string log)
         {
@@ -61,6 +63,13 @@ namespace StrifeClient.StrifeInternal
                     Console.ForegroundColor = ConsoleColor.White;
                     LogToFile(CreateFunctionHeader(className) + "Warning - " + log);
                     break;
+                case LogLevel.Fatal:
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine(CreateFunctionHeader(className) + log + " This error is FATAL.");
+                    LogToFile(CreateFunctionHeader(className) + "FATAL! - " + log);
+                    MessageBox.Show("The application has encountered an unrecoverable error. More info can be found in the latest.log file.\nStrife will now close.", "Strafe - fatal", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Application.Current.Shutdown();
+                    return;
             }
         }
         public static void InitLogger()
