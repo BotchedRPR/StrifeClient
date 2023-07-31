@@ -41,24 +41,28 @@ namespace StrifeClient.StrifeInternal
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine(CreateFunctionHeader(className) + log);
                     Console.ForegroundColor = ConsoleColor.White;
+                    LogToFile(CreateFunctionHeader(className) + "Success - " + log);
                     break;
                 case LogLevel.Debug:
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.WriteLine(CreateFunctionHeader(className) + log);
                     Console.ForegroundColor = ConsoleColor.White;
+                    LogToFile(CreateFunctionHeader(className) + "Debug - " + log);
                     break;
                 case LogLevel.Error:
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine(CreateFunctionHeader(className) + log);
                     Console.ForegroundColor = ConsoleColor.White;
+                    LogToFile(CreateFunctionHeader(className) + "ERROR - " + log);
                     break;
                 case LogLevel.Warning:
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.WriteLine(CreateFunctionHeader(className) + log);
                     Console.ForegroundColor = ConsoleColor.White;
+                    LogToFile(CreateFunctionHeader(className) + "Warning - " + log);
                     break;
             }
-            LogToFile(CreateFunctionHeader(className) + log);
+
         }
         public static void InitLogger()
         {
