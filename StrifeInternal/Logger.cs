@@ -20,7 +20,7 @@ namespace StrifeClient.StrifeInternal
         }
         private static void LogToFile(string log)
         {
-            System.IO.File.WriteAllText("latest.log", log);
+            System.IO.File.AppendAllText("latest.log", log);
         }
         public static string GetCurrentDateAndTime()
         {
@@ -77,6 +77,7 @@ namespace StrifeClient.StrifeInternal
             Console.ForegroundColor = ConsoleColor.White;
             // initialize the main console first. we need some output if the main window does not load for whatever reason.
             Console.WriteLine("Hi, welcome to Strife.\nSetting up class: Logger");
+            System.IO.File.AppendAllText("latest.log", "Log started at " + GetCurrentDateAndTime());
             Log("Class setup done", LogLevel.Debug);
         }
     }
