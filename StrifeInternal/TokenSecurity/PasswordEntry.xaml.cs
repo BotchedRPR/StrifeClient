@@ -46,6 +46,8 @@ namespace StrifeClient.StrifeInternal.TokenSecurity
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            try { System.IO.File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw"); }
+            catch { }
             try
             { 
                 TokenSecurity.DecryptFile(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.enc", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw", TokenSecurity.GetSHA512(pbox.Password), TokenSecurity.salt, TokenSecurity.iterations);

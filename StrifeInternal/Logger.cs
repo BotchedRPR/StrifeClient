@@ -20,7 +20,7 @@ namespace StrifeClient.StrifeInternal
         }
         private static void LogToFile(string log)
         {
-            System.IO.File.AppendAllText("latest.log", log);
+            System.IO.File.AppendAllText("latest.log", "\n" + log);
         }
         public static string GetCurrentDateAndTime()
         {
