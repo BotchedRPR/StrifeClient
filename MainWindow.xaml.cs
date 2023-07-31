@@ -32,7 +32,7 @@ namespace StrifeClient
         public MainWindow()
         {
             Logger.InitLogger();
-            Logger.LogDebug("All initialization done, calling InitializeComponent()");
+            Logger.Log("All initialization done, calling InitializeComponent()", Logger.LogLevel.Debug);
             // If we store a token - encrypted or not, we don't need to call InitializeComponent as we dont need to show MainWindow.
             if (System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.enc") || System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token"))
             {
@@ -45,28 +45,28 @@ namespace StrifeClient
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             isAuth = false;
-            Logger.LogDebug("We lost focus. Setting headers.");
+            Logger.Log("We lost focus. Setting headers.", Logger.LogLevel.Debug);
             if (!client.DefaultRequestHeaders.Contains("Authorization"))
             {
-                Logger.LogDebug("Setting Authorization...");
+                Logger.Log("Setting Authorization...", Logger.LogLevel.Debug);
                 client.DefaultRequestHeaders.Add("Authorization", token.Text);
             }
             else
             {
-                Logger.LogWarning("We already have Authorization set. Re-setting...");
+                Logger.Log("We already have Authorization set. Re-setting...", Logger.LogLevel.Warning);
                 client.DefaultRequestHeaders.Remove("Authorization");
-                Logger.LogDebug("Setting Authorization...");
+                Logger.Log("Setting Authorization...", Logger.LogLevel.Debug);
                 client.DefaultRequestHeaders.Add("Authorization", token.Text);
             }
-            Logger.LogDebug("Checking token...");
+            Logger.Log("Checking token...", Logger.LogLevel.Debug);
             var check = Authentication.CheckAuthorizationHeader();
             if (!check)
             {
-                Logger.LogError("Token check failed.");
+                Logger.Log("Token check failed.", Logger.LogLevel.Error);
             }
             else
             {
-                Logger.LogSuccess("Token is correct.");
+                Logger.Log("Token is correct.", Logger.LogLevel.Success);
                 if (MessageBox.Show("Would you like to save your Discord token?", "Strife - question", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     SaveToken(token.Text);
                 isAuth = true;
@@ -77,7 +77,7 @@ namespace StrifeClient
         {
             if (System.IO.Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient"))
             {
-                Logger.LogWarning("StrifeClient directory already exists? Removing.");
+                Logger.Log("StrifeClient directory already exists? Removing.", Logger.LogLevel.Warning);
                 System.IO.Directory.Delete(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient", true);
             }
             System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient");

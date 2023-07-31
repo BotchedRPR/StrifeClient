@@ -11,57 +11,57 @@ namespace StrifeClient.StrifeInternal.TokenSecurity
         {
             PasswordInputWindow piw = new();
             piw.ShowDialog();
-            Logger.LogDebug("Hashing. Please wait...");
+            Logger.Log("Hashing. Please wait...", Logger.LogLevel.Debug);
             string hash;
             if (piw.password == null)
             {
-                Logger.LogError("Password was null?");
+                Logger.Log("Password was null?", Logger.LogLevel.Warning);
             }
 #pragma warning disable CS8604 // Possible null reference argument.
             hash = GetSHA512(piw.password);
 #pragma warning restore CS8604 // Possible null reference argument.
-            Logger.LogDebug("Hash complete.");
-            Logger.LogDebug("Saving Token to file...");
+            Logger.Log("Hash complete.", Logger.LogLevel.Success);
+            Logger.Log("Saving Token to file...", Logger.LogLevel.Debug);
             try
             {
                 File.WriteAllTextAsync(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\password.hash", hash);
             }
             catch (Exception ex)
             {
-                Logger.LogError("Something went wrong while saving the password hash.\nException " + ex.Message);
+                Logger.Log("Something went wrong while saving the password hash.\nException " + ex.Message, Logger.LogLevel.Error);
                 return false;
             }
-            Logger.LogSuccess("Password hash stored. Encrypting Token.");
+            Logger.Log("Password hash stored. Encrypting Token.", Logger.LogLevel.Success);
             try
             {
                 File.WriteAllTextAsync(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw", token);
             }
             catch (Exception ex)
             {
-                Logger.LogError("Something went wrong while saving the token.\nException " + ex.Message);
+                Logger.Log("Something went wrong while saving the token.\nException " + ex.Message, Logger.LogLevel.Error);
                 return false;
             }
-            Logger.LogSuccess("Token saved. Encrypting file with hashed password.");
+            Logger.Log("Token saved. Encrypting file with hashed password.", Logger.LogLevel.Success);
             EncryptFile(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.enc", hash, salt, iterations);
             File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw");
-            Logger.LogSuccess("All done.");
+            Logger.Log("All done.", Logger.LogLevel.Success);
             return true;
         }
         public static bool SaveTokenInsecurely(string token)
         {
-            Logger.LogWarning("***WARNING***"); 
-            Logger.LogWarning("This authentication method is INSECURE. Please consider hashing!");
+            Logger.Log("***WARNING***", Logger.LogLevel.Warning); 
+            Logger.Log("This authentication method is INSECURE. Please consider hashing!", Logger.LogLevel.Warning);
             try
             {
                 File.WriteAllTextAsync(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw", token);
             }
             catch (Exception ex)
             {
-                Logger.LogError("Something went wrong while saving the token.\nException " + ex.Message);
+                Logger.Log("Something went wrong while saving the token.\nException " + ex.Message, Logger.LogLevel.Error);
                 return false;
             }
-            Logger.LogSuccess("Token saved.");
-            Logger.LogSuccess("All done.");
+            Logger.Log("Token saved.", Logger.LogLevel.Success);
+            Logger.Log("All done.", Logger.LogLevel.Success);
             return true;
         }
         public static string GetSHA512(string input)

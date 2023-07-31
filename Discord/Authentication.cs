@@ -14,7 +14,7 @@ namespace StrifeClient.Discord
         {
             if (!MainWindow.client.DefaultRequestHeaders.Contains("Authorization"))
             {
-                Logger.LogError("Authorization header NOT found!");
+                Logger.Log("Authorization header NOT found!", Logger.LogLevel.Error);
             }
             else
             {
