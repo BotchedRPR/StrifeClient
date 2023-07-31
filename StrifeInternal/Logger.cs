@@ -16,7 +16,7 @@ namespace StrifeClient.StrifeInternal
             Error = 2,
             Warning = 3,
         }
-        public static void LogToFile(string log)
+        private static void LogToFile(string log)
         {
             System.IO.File.WriteAllText("latest.log", log);
         }
@@ -62,7 +62,6 @@ namespace StrifeClient.StrifeInternal
                     LogToFile(CreateFunctionHeader(className) + "Warning - " + log);
                     break;
             }
-
         }
         public static void InitLogger()
         {
