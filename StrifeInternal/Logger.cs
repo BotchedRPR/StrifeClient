@@ -16,6 +16,10 @@ namespace StrifeClient.StrifeInternal
             Error = 2,
             Warning = 3,
         }
+        public static void LogToFile(string log)
+        {
+            System.IO.File.WriteAllText("latest.log", log);
+        }
         public static string GetCurrentDateAndTime()
         {
             DateTime LogTime = DateTime.Now;
@@ -54,7 +58,7 @@ namespace StrifeClient.StrifeInternal
                     Console.ForegroundColor = ConsoleColor.White;
                     break;
             }
-
+            LogToFile(CreateFunctionHeader(className) + log);
         }
         public static void InitLogger()
         {
