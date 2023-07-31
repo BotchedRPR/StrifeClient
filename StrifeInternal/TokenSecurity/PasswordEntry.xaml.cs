@@ -30,14 +30,28 @@ namespace StrifeClient.StrifeInternal.TokenSecurity
                 {
                     token = System.IO.File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw");
                 }
-                catch(Exception ex) 
+                catch (Exception ex)
                 {
                     Logger.Log("Something went wrong while reading the Token. Exception: " + ex.Message, Logger.LogLevel.Error);
+                    //OPEN MAIN WINDOW AS AN AUTHENTICATED USER HERE!
                     return;
                 }
                 Logger.Log("Token read succesfully!", Logger.LogLevel.Success);
             }
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            { 
+                TokenSecurity.DecryptFile(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.enc", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw", TokenSecurity.GetSHA512(pbox.Password), TokenSecurity.salt, TokenSecurity.iterations); 
+            }
+            catch(Exception ex)
+            {
+                Logger.Log("Invalid password. " + ex, Logger.LogLevel.Error);
+            }
+            System.IO.File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw");
         }
     }
 }
