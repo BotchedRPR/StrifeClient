@@ -34,7 +34,7 @@ namespace StrifeClient
             Logger.InitLogger();
             Logger.Log("All initialization done, calling InitializeComponent()", Logger.LogLevel.Debug);
             // If we store a token - encrypted or not, we don't need to call InitializeComponent as we dont need to show MainWindow.
-            if (System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.enc") || System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token"))
+            if (System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.enc") || System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw"))
             {
                 PasswordEntry pen = new();
                 pen.Show();
