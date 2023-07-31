@@ -47,6 +47,23 @@ namespace StrifeClient.StrifeInternal.TokenSecurity
             Logger.LogSuccess("All done.");
             return true;
         }
+        public static bool SaveTokenInsecurely(string token)
+        {
+            Logger.LogWarning("***WARNING***"); 
+            Logger.LogWarning("This authentication method is INSECURE. Please consider hashing!");
+            try
+            {
+                File.WriteAllTextAsync(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw", token);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Something went wrong while saving the token.\nException " + ex.Message);
+                return false;
+            }
+            Logger.LogSuccess("Token saved.");
+            Logger.LogSuccess("All done.");
+            return true;
+        }
         public static string GetSHA512(string input)
         {
             using var hashAlgorithm = SHA512.Create();

@@ -32,8 +32,14 @@ namespace StrifeClient
         public MainWindow()
         {
             Logger.InitLogger();
-            Logger.LogDebug("All initialization done, calling InitializeComponent()\n");
-            
+            Logger.LogDebug("All initialization done, calling InitializeComponent()");
+            // If we store a token - encrypted or not, we don't need to call InitializeComponent as we dont need to show MainWindow.
+            if (System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.enc") || System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token"))
+            {
+                PasswordEntry pen = new();
+                pen.Show();
+                this.Close();
+            }
             InitializeComponent();
         }
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -79,6 +85,8 @@ namespace StrifeClient
             {
                 TokenSecurity.SaveTokenWithPassword(token);
             }
+            else
+                TokenSecurity.SaveTokenInsecurely(token);
         }
     }
 }
