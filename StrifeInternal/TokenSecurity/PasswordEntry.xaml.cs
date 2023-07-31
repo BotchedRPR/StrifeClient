@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StrifeClient.Discord;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,10 +34,12 @@ namespace StrifeClient.StrifeInternal.TokenSecurity
                 catch (Exception ex)
                 {
                     Logger.Log("Something went wrong while reading the Token. Exception: " + ex.Message, Logger.LogLevel.Error);
-                    //OPEN MAIN WINDOW AS AN AUTHENTICATED USER HERE!
+                    SetHeaders(token);
+                    CheckToken();
                     return;
                 }
                 Logger.Log("Token read succesfully!", Logger.LogLevel.Success);
+                SetHeaders(token);
             }
             InitializeComponent();
         }
@@ -45,13 +48,45 @@ namespace StrifeClient.StrifeInternal.TokenSecurity
         {
             try
             { 
-                TokenSecurity.DecryptFile(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.enc", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw", TokenSecurity.GetSHA512(pbox.Password), TokenSecurity.salt, TokenSecurity.iterations); 
+                TokenSecurity.DecryptFile(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.enc", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw", TokenSecurity.GetSHA512(pbox.Password), TokenSecurity.salt, TokenSecurity.iterations);
+                token = System.IO.File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw");
+                System.IO.File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw");
+                SetHeaders(token);
+                CheckToken();
             }
             catch(Exception ex)
             {
                 Logger.Log("Invalid password. " + ex, Logger.LogLevel.Error);
             }
-            System.IO.File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw");
+        }
+        private void SetHeaders(string token)
+        {
+            Logger.Log("Setting headers.", Logger.LogLevel.Debug);
+            if (!MainWindow.client.DefaultRequestHeaders.Contains("Authorization"))
+            {
+                Logger.Log("Setting Authorization...", Logger.LogLevel.Debug);
+                MainWindow.client.DefaultRequestHeaders.Add("Authorization", token);
+            }
+            else
+            {
+                Logger.Log("We already have Authorization set. Re-setting...", Logger.LogLevel.Warning);
+                MainWindow.client.DefaultRequestHeaders.Remove("Authorization");
+                Logger.Log("Setting Authorization...", Logger.LogLevel.Debug);
+                MainWindow.client.DefaultRequestHeaders.Add("Authorization", token);
+            }
+        }
+        private void CheckToken() // This is void as if it cannot authenticate with discord we just close the app.
+        {
+            Logger.Log("Checking token...", Logger.LogLevel.Debug);
+            var check = Authentication.CheckAuthorizationHeader();
+            if (!check)
+            {
+                Logger.Log("Token check failed.", Logger.LogLevel.Fatal);
+            }
+            else
+            {
+                Logger.Log("Authenticated succesfully! Token is correct!", Logger.LogLevel.Success);
+            }
         }
     }
 }

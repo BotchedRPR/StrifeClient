@@ -45,7 +45,7 @@ namespace StrifeClient
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             isAuth = false;
-            Logger.Log("We lost focus. Setting headers.", Logger.LogLevel.Debug);
+            Logger.Log("Setting headers.", Logger.LogLevel.Debug);
             if (!client.DefaultRequestHeaders.Contains("Authorization"))
             {
                 Logger.Log("Setting Authorization...", Logger.LogLevel.Debug);
@@ -71,6 +71,7 @@ namespace StrifeClient
                     SaveToken(token.Text);
                 isAuth = true;
             }
+            this.Close();
         }
 
         private static void SaveToken(string token)
@@ -87,6 +88,9 @@ namespace StrifeClient
             }
             else
                 TokenSecurity.SaveTokenInsecurely(token);
+            Logger.Log("Alright, token saved. Quitting MainWindow and going into PasswordEntry.", Logger.LogLevel.Debug);
+            PasswordEntry pen = new();
+            pen.Show();
         }
     }
 }
