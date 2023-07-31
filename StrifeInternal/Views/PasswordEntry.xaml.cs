@@ -59,6 +59,7 @@ namespace StrifeClient.StrifeInternal.TokenSecurity
             catch(Exception ex)
             {
                 Logger.Log("Invalid password. " + ex, Logger.LogLevel.Error);
+
             }
         }
         private void SetHeaders(string token)
