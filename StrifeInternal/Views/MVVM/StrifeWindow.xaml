@@ -19,6 +19,6 @@
             <TextBox Text="{Binding DMID}" HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180"/>
             <Button Content="Parse" HorizontalAlignment="Center" Margin="0,64,0,0" VerticalAlignment="Top" Width="180" Command="{Binding GetChannelFromApi}"/>
         </Grid>
-        <ListView ItemsSource="{Binding Messages}" Grid.Column="1" ItemContainerStyle="{StaticResource ChatItem}" Background="Black"/>
+        <ListView ItemsSource="{Binding Messages}" Grid.Column="1" ItemContainerStyle="{StaticResource ChatItem}" Background="#FF525252"/>
     </Grid>
 </Window>

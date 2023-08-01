@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using System.Windows.Controls;
 
 namespace StrifeClient.StrifeInternal.Views.MVVM.ViewModel
 {
@@ -26,16 +27,16 @@ namespace StrifeClient.StrifeInternal.Views.MVVM.ViewModel
             Logger.Log("Hello from mvvm buttonm, waiting for request result... ", Logger.LogLevel.Debug);
             var task = Task.Run(() => Discord.API.Channels.Channels.GetChannelMessages(Discord.APIUris.GetChannelUri(_dmid)));
             dynamic json = Discord.API.Channels.Channels.ParseJsonDataFromRequest(task.Result.ToString());
-            foreach (dynamic obj in json)
-            {
+            for(int i = json.Count - 1; i > -1; i--)
+            { 
                 Messages.Add(new MessageModel
                 {
-                    Username = obj.author.global_name,
-                    ImageSource = obj.author.avatar,
-                    Message = obj.content,
+                    Username = json[i].author.username,
+                    ImageSource = json[i].author.avatar,
+                    Message = json[i].content,
                     MessageSent = DateTime.Now,
                     IsNativeOrigin = false,
-                    IsFirstMessage = false
+                    IsFirstMessage = true
                 });
             }
         }
