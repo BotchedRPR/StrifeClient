@@ -31,13 +31,16 @@ namespace StrifeClient.StrifeInternal.Views.MVVM.ViewModel
                 Messages.Add(new MessageModel
                 {
                     Username = json[i].author.username,
-                    ImageSource = json[i].author.avatar,
+                    ImageSource = Discord.API.Avatars.Avatars.GetAvatarUri(json[i].author.id.ToString(), json[i].author.avatar.ToString()),
                     Message = json[i].content,
                     MessageSent = DateTime.Now,
                     IsNativeOrigin = false,
                     IsFirstMessage = true
                 });
             }
+            var _task = Task.Run(() => Discord.API.DMs.DMs.GetUserDMs());
+            json = Discord.API.Channels.Channels.ParseJsonDataFromRequest(_task.Result.ToString());
+
         }
         public StrifeWindowViewModel()
         {

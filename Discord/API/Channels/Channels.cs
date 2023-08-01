@@ -20,9 +20,14 @@ namespace StrifeClient.Discord.API.Channels
                 Logger.Log("Something went wrong with DiscordAPI, requested Uri returned: \n" + request.ToString(), Logger.LogLevel.Error);
             return "An error has occured";
         }
-        public static dynamic ParseJsonDataFromRequest(string request)
+        public static dynamic? ParseJsonDataFromRequest(string? request)
         {
-            return JsonConvert.DeserializeObject<dynamic>(request); //we use dynamic types in case discord changes something inside of their api
+            if (request != null)
+                return JsonConvert.DeserializeObject<dynamic>(request); //we use dynamic types in case discord changes something inside of their api
+            else
+            {
+                return "Request failure";
+            }
         }
     }
 }
