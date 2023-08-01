@@ -1,4 +1,5 @@
 ﻿using StrifeClient.Discord;
+using StrifeClient.StrifeInternal.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,9 @@ namespace StrifeClient.StrifeInternal.TokenSecurity
                     Logger.Log("Something went wrong while reading the Token. Exception: " + ex.Message, Logger.LogLevel.Error);
                     SetHeaders(token);
                     CheckToken();
+                    StrifeWindow sw = new();
+                    sw.Show();
+                    this.Close();
                     return;
                 }
                 Logger.Log("Token read succesfully!", Logger.LogLevel.Success);
@@ -55,6 +59,9 @@ namespace StrifeClient.StrifeInternal.TokenSecurity
                 System.IO.File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\StrifeClient\token.raw");
                 SetHeaders(token);
                 CheckToken();
+                StrifeWindow sw = new();
+                sw.Show();
+                this.Close();
             }
             catch(Exception ex)
             {

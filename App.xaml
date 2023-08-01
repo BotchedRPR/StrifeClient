@@ -4,6 +4,10 @@
              xmlns:local="clr-namespace:StrifeClient"
              StartupUri="MainWindow.xaml" Exit="Application_Exit">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./StrifeInternal/Views/MVVM/Styles/ChatMessageStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
