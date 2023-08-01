@@ -23,41 +23,27 @@ namespace StrifeClient.StrifeInternal.Views.MVVM.ViewModel
         public ICommand GetChannelFromApi { get; private set; }
         public void test()
         {
-            Logger.Log("Hello from mvvm buttonm, uri is " + Discord.APIUris.GetChannelUri(_dmid), Logger.LogLevel.Debug);
+            Logger.Log("Hello from mvvm buttonm, waiting for request result... ", Logger.LogLevel.Debug);
+            var task = Task.Run(() => Discord.API.Channels.Channels.GetChannelMessages(Discord.APIUris.GetChannelUri(_dmid)));
+            dynamic json = Discord.API.Channels.Channels.ParseJsonDataFromRequest(task.Result.ToString());
+            foreach (dynamic obj in json)
+            {
+                Messages.Add(new MessageModel
+                {
+                    Username = obj.author.global_name,
+                    ImageSource = obj.author.avatar,
+                    Message = obj.content,
+                    MessageSent = DateTime.Now,
+                    IsNativeOrigin = false,
+                    IsFirstMessage = false
+                });
+            }
         }
         public StrifeWindowViewModel()
         {
             Messages = new ObservableCollection<MessageModel>();
             Contacts = new ObservableCollection<ContactModel>();
             GetChannelFromApi = new RelayCommand(test);
-
-            Messages.Add(new MessageModel
-            {
-                Username = "Dummy",
-                ImageSource = "nah",
-                Message = "Hello",
-                MessageSent = DateTime.Now,
-                IsNativeOrigin = false,
-                IsFirstMessage = true
-            });
-            Messages.Add(new MessageModel
-            {
-                Username = "Dummy",
-                ImageSource = "nah",
-                Message = "Hello",
-                MessageSent = DateTime.Now,
-                IsNativeOrigin = false,
-                IsFirstMessage = false
-            });
-            Messages.Add(new MessageModel
-            {
-                Username = "Dummy",
-                ImageSource = "nah",
-                Message = "Hello",
-                MessageSent = DateTime.Now,
-                IsNativeOrigin = false,
-                IsFirstMessage = false
-            });
         }
     }
 }
