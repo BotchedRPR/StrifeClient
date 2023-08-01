@@ -15,9 +15,9 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid Background="#FF191919">
-            <Label Content="Channel ID" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
-            <TextBox HorizontalAlignment="Center" Margin="0,41,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="180"/>
-            <Button Content="Parse" HorizontalAlignment="Center" Margin="0,64,0,0" VerticalAlignment="Top" Width="180"/>
+            <Label Content="Channel ID" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"  Foreground="White"/>
+            <TextBox Text="{Binding DMID}" HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180"/>
+            <Button Content="Parse" HorizontalAlignment="Center" Margin="0,64,0,0" VerticalAlignment="Top" Width="180" Command="{Binding GetChannelFromApi}"/>
         </Grid>
         <ListView ItemsSource="{Binding Messages}" Grid.Column="1" ItemContainerStyle="{StaticResource ChatItem}" Background="Black"/>
     </Grid>
