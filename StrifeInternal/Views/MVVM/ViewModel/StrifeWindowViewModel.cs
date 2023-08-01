@@ -22,7 +22,7 @@ namespace StrifeClient.StrifeInternal.Views.MVVM.ViewModel
             set { _dmid = value; }
         }
         public ICommand GetChannelFromApi { get; private set; }
-        public void test()
+        public void GetChannelMessages()
         {
             var task = Task.Run(() => Discord.API.Channels.Channels.GetChannelMessages(Discord.APIUris.GetChannelUri(_dmid)));
             dynamic json = Discord.API.Channels.Channels.ParseJsonDataFromRequest(task.Result.ToString());
@@ -43,7 +43,7 @@ namespace StrifeClient.StrifeInternal.Views.MVVM.ViewModel
         {
             Messages = new ObservableCollection<MessageModel>();
             Contacts = new ObservableCollection<ContactModel>();
-            GetChannelFromApi = new RelayCommand(test);
+            GetChannelFromApi = new RelayCommand(GetChannelMessages);
         }
     }
 }
