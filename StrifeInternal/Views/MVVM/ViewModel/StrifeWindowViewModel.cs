@@ -24,7 +24,6 @@ namespace StrifeClient.StrifeInternal.Views.MVVM.ViewModel
         public ICommand GetChannelFromApi { get; private set; }
         public void test()
         {
-            Logger.Log("Hello from mvvm buttonm, waiting for request result... ", Logger.LogLevel.Debug);
             var task = Task.Run(() => Discord.API.Channels.Channels.GetChannelMessages(Discord.APIUris.GetChannelUri(_dmid)));
             dynamic json = Discord.API.Channels.Channels.ParseJsonDataFromRequest(task.Result.ToString());
             for(int i = json.Count - 1; i > -1; i--)
