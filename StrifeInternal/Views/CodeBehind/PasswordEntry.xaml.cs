@@ -98,5 +98,11 @@ namespace StrifeClient.StrifeInternal.TokenSecurity
                 Logger.Log("Authenticated succesfully! Token is correct!", Logger.LogLevel.Success);
             }
         }
+
+        private void pbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+                Button_Click(sender, e);
+        }
     }
 }
