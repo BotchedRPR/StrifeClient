@@ -40,21 +40,20 @@ namespace StrifeClient.StrifeInternal.Views.MVVM.ViewModel
         {
             var task = Task.Run(() => Discord.API.Channels.Channels.GetChannelMessages(Discord.APIUris.GetChannelUri(_dmid)));
             dynamic json = Discord.API.Channels.Channels.ParseJsonDataFromRequest(task.Result.ToString());
-            for(int i = json.Count - 1; i > -1; i--)
+            for (int i = json.Count - 1; i > -1; i--)
             { 
                 Messages.Add(new MessageModel
                 {
                     Username = json[i].author.username,
                     ImageSource = Discord.API.Avatars.Avatars.GetAvatarUri(json[i].author.id.ToString(), json[i].author.avatar.ToString()),
                     Message = json[i].content,
-                    MessageSent = DateTime.Now,
+                    MessageSent = json[i].timestamp,
                     IsNativeOrigin = false,
                     IsFirstMessage = true
                 });
             }
             var _task = Task.Run(() => Discord.API.DMs.DMs.GetUserDMs());
             json = Discord.API.Channels.Channels.ParseJsonDataFromRequest(_task.Result.ToString());
-
         }
         public StrifeWindowViewModel()
         {
