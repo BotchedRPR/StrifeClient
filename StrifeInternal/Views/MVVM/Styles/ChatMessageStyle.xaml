@@ -5,7 +5,7 @@
             <Setter.Value>
             <ControlTemplate>
                 <StackPanel Orientation="Horizontal">
-                        <Ellipse Width="50" Height="50"
+                        <Ellipse Width="40" Height="40"
                              Margin="10,0,0,-10">
                             <Ellipse.Fill>
                                 <ImageBrush ImageSource="{Binding ImageSource}"
@@ -18,19 +18,21 @@
                                    Foreground="White"
                                    FontWeight="SemiBold"
                                    VerticalAlignment="Center"
+                                   FontSize="15"
                                    Margin="0,0,-10,0"/>
 
                                 <Label Content="{Binding MessageSent}"
                                    Foreground="Gray"
                                    FontWeight="SemiBold"
-                                   FontSize="9"
+                                   FontSize="10"
                                    VerticalAlignment="Center"
-                                   Margin="10,0,0,0"/>
+                                   Margin="5,1.95,0,0"/>
                             </StackPanel>
 
                             <Label Content="{Binding Message}"
                                    Foreground="White"
                                    FontSize="15"
+                                   Margin="1,-8,0,0"
                                    VerticalAlignment="Center"/>
                         </StackPanel>
                     </StackPanel>
