@@ -23,7 +23,7 @@ namespace StrifeClient.StrifeInternal.Views.MVVM.ViewModel
         public ICommand GetChannelFromApi { get; private set; }
         public void test()
         {
-            Logger.Log("Hello from mvvm buttonm, dmid is " + _dmid, Logger.LogLevel.Debug);
+            Logger.Log("Hello from mvvm buttonm, uri is " + Discord.APIUris.GetChannelUri(_dmid), Logger.LogLevel.Debug);
         }
         public StrifeWindowViewModel()
         {
