@@ -45,7 +45,7 @@ namespace StrifeClient.StrifeInternal
         {
             return "[" + GetCurrentDateAndTime() + "]" + " " + callerName + " - ";
         }
-        public static void Log(string log, LogLevel logLevel)
+        public static void Log(string log, LogLevel logLevel = LogLevel.Debug)
         {
 #pragma warning disable CS8602
             var methodInfo = new StackTrace().GetFrame(1).GetMethod();
